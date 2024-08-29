@@ -1,10 +1,13 @@
 package ProyectoEstructuras;
+
 import java.util.Iterator;
 
-public class Lista<T> implements Iterable<T>{
+public class Lista<T> implements Iterable<T> {
+
     private Nodo<T> head;
 
     private static class Nodo<T> {
+
         private T data;
         private Nodo<T> next;
 
@@ -19,6 +22,7 @@ public class Lista<T> implements Iterable<T>{
     }
 
     private class ListaIterator implements Iterator<T> {
+
         private Nodo<T> current;
 
         public ListaIterator() {
@@ -58,5 +62,33 @@ public class Lista<T> implements Iterable<T>{
         System.out.println();
     }
 
-}
+    public void remove(T dataToRemove) {
+        if (head == null) {
+            return; // La lista está vacía, no hay nada que eliminar
+        }
 
+        // Si el elemento a eliminar es el primer nodo
+        if (head.data.equals(dataToRemove)) {
+            head = head.next;
+            return;
+        }
+
+        Nodo<T> prev = null;
+        Nodo<T> current = head;
+
+        // Buscamos el nodo a eliminar
+        while (current != null && !current.data.equals(dataToRemove)) {
+            prev = current;
+            current = current.next;
+        }
+
+        // Si no se encontró el nodo a eliminar
+        if (current == null) {
+            return;
+        }
+
+        // Enlazamos el nodo previo con el siguiente, eliminando el nodo actual
+        prev.next = current.next;
+    }
+
+}
