@@ -33,6 +33,9 @@ public class menu {
         for (Tarjeta tarjeta : lista) {
             conjuntoDisyunto.makeSet(tarjeta);
         }
+
+        maxHeap2C heap = cargarTarjetasHeap();
+        
         int opcion, insertContinue;
 
         /*
@@ -47,7 +50,8 @@ public class menu {
                 System.out.println("3. Ver tarjetas");
                 System.out.println("4. Ver tarjetas guardadas");
                 System.out.println("5. Agrupar tarjetas por etiqueta");
-                System.out.println("6. Salir");
+                System.out.println("6. Ver tarjetas mejor calificadas");
+                System.out.println("7. Salir");
                 System.out.print("Ingrese el numero de la opcion deseada: ");
                 opcion = scanner.nextInt(); // Lee la opción del usuario
                 scanner.nextLine(); // Consumir la nueva línea después de leer el número
@@ -72,6 +76,7 @@ public class menu {
 
                             Tarjeta tarjeta = new Tarjeta(tarjetaData, tarjetaTitle, tarjetaTag);
                             lista.add(tarjeta);
+                            heap.insert(tarjeta);
 
                             System.out.println("Ingrese '1' para seguir ingresando o ingrese '0' para dejar de ingresar");
                             insertContinue = scanner.nextInt(); // Lee la opción del usuario
@@ -139,6 +144,7 @@ public class menu {
                                     case 2:
                                         // Opción para eliminar la tarjeta encontrada
                                         lista.remove(actualTarjeta);
+                                        heap.remove(actualTarjeta);
                                         System.out.println("Tarjeta eliminada correctamente.");
                                         System.out.println("Presione Enter para continuar...");
                                         scanner.nextLine(); // Espera a que el usuario presione Enter
@@ -193,6 +199,7 @@ public class menu {
                                 int calificacion = scanner.nextInt();
                                 scanner.nextLine();
                                 actualTarjeta.setRating(actualTarjeta.addRating(calificacion));
+                                heap.changePriority(actualTarjeta);
                                 System.out.println("Tarjeta calificada con exito!");
                             }
 
@@ -233,6 +240,38 @@ public class menu {
                         break;
 
                     case 6:
+                        /*
+                        * Opcion de ver las tarjetas con mayor calificacion
+                        * Muestra las tarjetas almacenadas en el heap al usuario
+                        */
+                        
+                        int tarjetaHeapContinue = 1;
+                        
+                        while(tarjetaHeapContinue == 1 && !heap.isEmpty()){
+                            Tarjeta actualHeapTarjeta = heap.extractMax();
+                            
+                            System.out.println(actualHeapTarjeta.getTitle());
+                            System.out.println(actualHeapTarjeta.getData());
+                            System.out.println("Etiqueta: " + actualHeapTarjeta.getTag());
+                            System.out.println("Calificacion promedio: " + actualHeapTarjeta.getRating() + " estrellas");
+                            
+                            if (!heap.isEmpty()) {
+                                System.out.println("Ingrese '1' para ver la siguiente tarjeta o ingrese '0' para dejar de ver tarjetas");
+                                tarjetaHeapContinue = scanner.nextInt();
+                                scanner.nextLine(); // Consumir la nueva línea después de leer el número
+                            } else {
+                                System.out.println("No hay mas cartas para mostrar");
+                                System.out.println("Presione Enter para continuar...");
+                                scanner.nextLine(); // Espera a que el usuario presione Enter                                                                
+                            }                            
+                            
+                        }
+                        
+                        heap = cargarTarjetasHeap(); //volver a llenar el heap
+                        
+                        break;                        
+
+                    case 7:
                         guardarTarjetas(lista);
                         break;
                     default:
@@ -248,7 +287,7 @@ public class menu {
                 opcion = 0; // Establecer opción en 0 para repetir el ciclo
             }
 
-        } while (opcion != 6);
+        } while (opcion != 7);
 
         scanner.close(); // Cerrar el scanner al finalizar su uso
     }
@@ -272,6 +311,26 @@ public class menu {
         }
         return lista;
     }
+
+    private static maxHeap2C cargarTarjetasHeap() {
+        maxHeap2C heap = new maxHeap2C();
+        try (BufferedReader br = new BufferedReader(new FileReader(ARCHIVO_TARJETAS))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                String title = parts[0];
+                String data = parts[1];
+                String tag = parts[2];
+                float rating = Float.parseFloat(parts[3]);
+                Tarjeta tarjeta = new Tarjeta(data, title, tag, rating);
+                tarjeta.ratings.add(rating);
+                heap.insert(tarjeta);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar las tarjetas al heap: " + e.getMessage());
+        }
+        return heap;
+    }      
 
     private static void guardarTarjetas(Lista<Tarjeta> tarjetas) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_TARJETAS))) {
