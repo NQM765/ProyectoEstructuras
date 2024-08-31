@@ -119,5 +119,9 @@ public class maxHeap3C {
         this.array = newArray;
         this.maxSize = newMaxSize;
     }
+
+    public boolean isEmpty(){
+        return size==0;
+    }    
           
 }
