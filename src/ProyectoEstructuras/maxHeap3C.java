@@ -48,13 +48,13 @@ public class maxHeap3C {
         int central = centralChild(i);
         int right = rightChild(i);
         
-        if(left <= size && array[left].getRating() > array[minIndex].getRating()){
+        if(left < size && array[left].getRating() > array[minIndex].getRating()){
             minIndex = left;
         }
-        if(right <= size && array[central].getRating() > array[minIndex].getRating()){
+        if(central < size && array[central].getRating() > array[minIndex].getRating()){
             minIndex = central;
         }        
-        if(right <= size && array[right].getRating() > array[minIndex].getRating()){
+        if(right < size && array[right].getRating() > array[minIndex].getRating()){
             minIndex = right;
         }
         if(i != minIndex){
