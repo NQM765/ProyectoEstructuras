@@ -30,8 +30,10 @@ public class menu {
         Lista<Tarjeta> lista = cargarTarjetas(); // Crear una instancia de Lista para almacenar las tarjetas
         Lista<Tarjeta> guardadas = new Lista<>();
         ConjuntoDisyunto<Tarjeta> conjuntoDisyunto = new ConjuntoDisyunto<>();
+        AVLTree avl = new AVLTree();
         for (Tarjeta tarjeta : lista) {
             conjuntoDisyunto.makeSet(tarjeta);
+            avl.insert(tarjeta)
         }
 
         maxHeap2C heap = cargarTarjetasHeap();
@@ -51,7 +53,8 @@ public class menu {
                 System.out.println("4. Ver tarjetas guardadas");
                 System.out.println("5. Agrupar tarjetas por etiqueta");
                 System.out.println("6. Ver tarjetas mejor calificadas");
-                System.out.println("7. Salir");
+                System.out.println("7. Ver tarjetas recientes");
+                System.out.println("8. Salir");
                 System.out.print("Ingrese el numero de la opcion deseada: ");
                 opcion = scanner.nextInt(); // Lee la opción del usuario
                 scanner.nextLine(); // Consumir la nueva línea después de leer el número
@@ -77,6 +80,8 @@ public class menu {
                             Tarjeta tarjeta = new Tarjeta(tarjetaData, tarjetaTitle, tarjetaTag);
                             lista.add(tarjeta);
                             heap.insert(tarjeta);
+                            avl.insert(tarjeta);
+                            
 
                             System.out.println("Ingrese '1' para seguir ingresando o ingrese '0' para dejar de ingresar");
                             insertContinue = scanner.nextInt(); // Lee la opción del usuario
@@ -272,6 +277,23 @@ public class menu {
                         break;                        
 
                     case 7:
+                        /*
+                        * Opcion de ver las tarjetas mas recientes
+                        * Muestra las tarjetas almacenadas en la lista al usuario
+                        */
+                        List<Tarjeta> tarjetas = avl.getTarjetasInDescendingOrder();
+                        for (Tarjeta tarjeta : tarjetas) {
+                            System.out.println(tarjeta.getTitle());
+                            System.out.println(tarjeta.getData());
+                            System.out.println("Etiqueta: " + tarjeta.getTag());
+                            System.out.println("Calificacion promedio: " + tarjeta.getRating() + " estrellas");
+                            System.out.println("Fecha de creacion: " + tarjeta.getTime());
+                        }
+                        System.out.println("Presione Enter para continuar...");
+                        scanner.nextLine(); // Espera a que el usuario presione Enter
+                        break;
+
+                    case 8:
                         guardarTarjetas(lista);
                         break;
                     default:
