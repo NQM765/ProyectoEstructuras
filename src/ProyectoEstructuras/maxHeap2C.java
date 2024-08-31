@@ -54,10 +54,10 @@ public class maxHeap2C {
         int left = leftChild(i);
         int right = rightChild(i);
 
-        if(left <= size && array[left].getRating() > array[minIndex].getRating()){
+        if(left < size && array[left].getRating() > array[minIndex].getRating()){
             minIndex = left;
         }
-        if(right <= size && array[right].getRating() > array[minIndex].getRating()){
+        if(right < size && array[right].getRating() > array[minIndex].getRating()){
             minIndex = right;
         }
         if(i != minIndex){
