@@ -15,6 +15,7 @@ import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.List;
 
 public class menu {
 
@@ -33,8 +34,9 @@ public class menu {
         AVLTree avl = new AVLTree();
         for (Tarjeta tarjeta : lista) {
             conjuntoDisyunto.makeSet(tarjeta);
-            avl.insert(tarjeta)
+            avl.insert(tarjeta);
         }
+
 
         maxHeap2C heap = cargarTarjetasHeap();
         
@@ -53,7 +55,7 @@ public class menu {
                 System.out.println("4. Ver tarjetas guardadas");
                 System.out.println("5. Agrupar tarjetas por etiqueta");
                 System.out.println("6. Ver tarjetas mejor calificadas");
-                System.out.println("7. Ver tarjetas recientes");
+                System.out.println("7. Ver las tarjetas más recientes");
                 System.out.println("8. Salir");
                 System.out.print("Ingrese el numero de la opcion deseada: ");
                 opcion = scanner.nextInt(); // Lee la opción del usuario
@@ -81,7 +83,6 @@ public class menu {
                             lista.add(tarjeta);
                             heap.insert(tarjeta);
                             avl.insert(tarjeta);
-                            
 
                             System.out.println("Ingrese '1' para seguir ingresando o ingrese '0' para dejar de ingresar");
                             insertContinue = scanner.nextInt(); // Lee la opción del usuario
@@ -274,8 +275,8 @@ public class menu {
                         
                         heap = cargarTarjetasHeap(); //volver a llenar el heap
                         
-                        break;                        
-
+                        break;   
+                        
                     case 7:
                         /*
                         * Opcion de ver las tarjetas mas recientes
