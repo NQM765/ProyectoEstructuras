@@ -395,7 +395,7 @@ public class menu {
             }
 
         } while (opcion
-                != 9);
+                != 10);
 
         scanner.close(); // Cerrar el scanner al finalizar su uso
     }
