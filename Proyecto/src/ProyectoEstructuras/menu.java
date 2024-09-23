@@ -57,7 +57,8 @@ public class menu {
                 System.out.println("6. Ver tarjetas mejor calificadas");
                 System.out.println("7. Ver las tarjetas más recientes");
                 System.out.println("8. Mostrar relaciones entre tarjetas (grafo)");
-                System.out.println("9. Salir");
+                System.out.println("9. Buscar una tarjeta (Hash) y/o realizar cambios o eliminarla");
+                System.out.println("10. Salir");
                 System.out.print("Ingrese el numero de la opcion deseada: ");
                 opcion = scanner.nextInt(); // Lee la opción del usuario
                 scanner.nextLine(); // Consumir la nueva línea después de leer el número
@@ -299,8 +300,85 @@ public class menu {
                         String etiquetaIngresada = scanner.nextLine();
                         mostrarRelacionesPorEtiqueta(etiquetaIngresada, lista, conjuntoDisyunto);
                         break;
-
+                        
                     case 9:
+
+                        System.out.println("\u001B[1mBuscar una tarjeta\u001B[0m");
+                        System.out.println("Ingrese una palabra clave para buscar en el título o en los datos de las tarjetas");
+                        String keywordHash = scanner.nextLine().toLowerCase(); // Convertir la palabra clave a minúsculas
+
+                        boolean foundHash = false; // Variable para rastrear si se encontraron tarjetas
+
+                        Iterator<Tarjeta> iteradorBuscarHash = lista.iterator();
+                        hash hashstr = new hash();
+
+                        while (iteradorBuscarHash.hasNext()) {
+                            Tarjeta actualTarjeta = iteradorBuscarHash.next();
+
+                            // Compara la palabra clave con el título, los datos de la tarjeta y la etiqueta
+                            if (hashstr.search(keywordHash, actualTarjeta.getTitle().toLowerCase()) || 
+                                hashstr.search(keywordHash, actualTarjeta.getData().toLowerCase()) || 
+                                hashstr.search(keywordHash, actualTarjeta.getTag().toLowerCase())) {
+
+                                System.out.println("\u001B[1mTarjeta encontrada:\u001B[0m");
+                                System.out.println(actualTarjeta.getTitle());
+                                System.out.println(actualTarjeta.getData());
+                                System.out.println("Etiqueta: " + actualTarjeta.getTag());
+                                System.out.println("Calificación promedio: " + actualTarjeta.getRating() + " estrellas");
+
+                                foundHash = true; // Se encontró al menos una tarjeta
+
+                                // Opciones adicionales
+                                System.out.println("Seleccione una opción:");
+                                System.out.println("1. Editar tarjeta");
+                                System.out.println("2. Eliminar tarjeta");
+                                System.out.println("3. Siguiente búsqueda o salida");
+
+                                int opcionEditarEliminar = scanner.nextInt();
+                                scanner.nextLine(); // Consumir la nueva línea
+
+                                switch (opcionEditarEliminar) {
+                                    case 1:
+                                        System.out.println("Ingrese el nuevo título de la tarjeta:");
+                                        String nuevoTitulo = scanner.nextLine();
+                                        System.out.println("Ingrese el nuevo consejo de la tarjeta:");
+                                        String nuevoConsejo = scanner.nextLine();
+                                        System.out.println("Ingrese la nueva etiqueta de la tarjeta:");
+                                        String nuevaEtiqueta = scanner.nextLine();
+
+                                        actualTarjeta.setTitle(nuevoTitulo);
+                                        actualTarjeta.setData(nuevoConsejo);
+                                        actualTarjeta.setTag(nuevaEtiqueta);
+
+                                        System.out.println("Tarjeta actualizada correctamente.");
+                                        System.out.println("Presione Enter para continuar...");
+                                        scanner.nextLine(); // Espera a que el usuario presione Enter
+                                        break;
+                                    case 2:
+                                        lista.remove(actualTarjeta);
+                                        heap.remove(actualTarjeta);
+                                        System.out.println("Tarjeta eliminada correctamente.");
+                                        System.out.println("Presione Enter para continuar...");
+                                        scanner.nextLine(); // Espera a que el usuario presione Enter
+                                        break;
+                                    case 3:
+                                        // Continuar con la siguiente búsqueda
+                                        break;
+                                    default:
+                                        System.out.println("Opción no válida.");
+                                }
+                            }
+                        }
+
+                        if (!foundHash) {
+                            System.out.println("No se encontraron tarjetas que coincidan con la palabra clave.");
+                            System.out.println("Presione Enter para continuar...");
+                            scanner.nextLine(); // Espera a que el usuario presione Enter
+                        }
+
+                        break;                    
+
+                    case 10:
                         guardarTarjetas(lista);
                         break;
                     default:
