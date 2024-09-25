@@ -12,7 +12,7 @@ package ProyectoEstructuras;
 
 class hash{
     public boolean search(String P, String T){
-        int q = 101;                //Numero primo
+        int q = 15485863;           //Numero primo
         int x = 256;                //Valor aleatorio entre 1 y p-1
         
         int pLength = P.length();   //Longitud del patron
