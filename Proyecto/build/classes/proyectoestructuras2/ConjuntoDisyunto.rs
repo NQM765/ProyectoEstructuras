@@ -1,0 +1,2 @@
+ProyectoEstructuras2.ConjuntoDisyunto
+ProyectoEstructuras.ConjuntoDisyunto

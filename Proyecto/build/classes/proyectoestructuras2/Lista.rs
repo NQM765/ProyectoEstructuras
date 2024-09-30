@@ -1,0 +1,6 @@
+ProyectoEstructuras2.Lista$Nodo
+ProyectoEstructuras2.Lista
+ProyectoEstructuras.Lista$Nodo
+ProyectoEstructuras2.Lista$ListaIterator
+ProyectoEstructuras.Lista
+ProyectoEstructuras.Lista$ListaIterator

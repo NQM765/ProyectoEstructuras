@@ -1,0 +1,2 @@
+ProyectoEstructuras2.ConjuntoDisyuntoSinCompresion
+ProyectoEstructuras.ConjuntoDisyuntoSinCompresion
